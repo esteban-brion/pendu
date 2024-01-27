@@ -15,5 +15,55 @@ def choisir_mot_aleatoire(nom_fichier):
 # Utiliser la fonction pour choisir un mot aléatoire à partir du fichier 'mot_pendu.txt'
 mot_aleatoire = choisir_mot_aleatoire('mot_pendu.txt')
 
+def jouer_pendu(mot_secret):
+    mot_masque = '_' * (len(mot_secret))
+    lettres_devinees = set()
+    tentatives_restantes = 6
+
+    print("Bienvenue dans le jeu du pendu!")
+    print("Mot à deviner :", mot_masque)
+
+    while tentatives_restantes > 0 and '_' in mot_masque:
+        lettre = input("Devinez une lettre : ").lower()
+
+        if lettre in lettres_devinees:
+            print("Vous avez déjà deviné cette lettre. Essayez une autre.")
+            continue
+
+        lettres_devinees.add(lettre)
+
+        if lettre in mot_secret:
+            print("Bonne devinette !")
+            mot_masque = mettre_a_jour_mot_masque(mot_secret, mot_masque, lettre)
+        else:
+            tentatives_restantes -= 1
+            print(f"Mauvaise devinette. Tentatives restantes : {tentatives_restantes}")
+
+        print("Mot à deviner :", mot_masque)
+
+    if '_' not in mot_masque:
+        print("Félicitations ! Vous avez deviné le mot :", mot_secret)
+    else:
+        print("Dommage ! Le mot était :", mot_secret)
+
+def mettre_a_jour_mot_masque(mot_secret, mot_masque, lettre):
+    nouvelle_version = ''
+    for i in range(len(mot_secret)-1):
+        if mot_secret[i] == lettre:
+            nouvelle_version += lettre
+        else:
+            nouvelle_version += mot_masque[i]
+
+    return nouvelle_version
+
+
+# Utiliser la fonction pour choisir un mot aléatoire à partir du fichier 'mot_pendu.txt'
+mot_aleatoire = choisir_mot_aleatoire('mot_pendu.txt')
+
+# Jouer au jeu du pendu avec le mot choisi
+if mot_aleatoire:
+    jouer_pendu(mot_aleatoire)
+
+
 
 
