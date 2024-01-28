@@ -33,30 +33,34 @@ def jouer_pendu(mot_secret):
         # on force toutes les lettres a etre des minuscules
 
         if not lettre.isalpha() or not lettre.islower():
-            #on teste si c'est une lettreou une lettre minuscule sinon on eneleve pas de vie
+            #on teste si c'est une lettre majusculeou une lettre minuscule sinon on n'enleve pas de vie
             print("Veuillez entrer une lettre en minuscule valide.")
             continue
 
         if lettre in lettres_devinees:
+            #On gère le cas où l'utilisateur a déja entré la même lettre
             print("Vous avez déjà deviné cette lettre. Essayez une autre.")
             continue
 
         lettres_devinees.append(lettre)
+        #On actualise la liste de lettre tapés par l'utilisateur.
 
         if lettre in mot_secret:
+            #Cas ou l'utilisateur a devinée une lettre
             print("Bonne devinette !")
             mot_masque = mettre_a_jour_mot_masque(mot_secret, mot_masque, lettre)
         else:
+            #On enleve une vie si la lettren'est pas dans le mot
             tentatives_restantes -= 1
             print(f"Mauvaise devinette. Tentatives restantes : {tentatives_restantes}")
 
             if tentatives_restantes == 1:
+                #appel de la fonction pour donner un indice si il ne reste qu'une vie.
                 indice = obtenir_indice(mot_secret, lettres_devinees)
                 print(f"Indice : {indice}")
 
-
-
         print("Mot à deviner :", mot_masque)
+        #On affiche le mot à la fin de chaque partie.
 
     if '_' not in mot_masque:
         print("Félicitations ! Vous avez deviné le mot :", mot_secret)
