@@ -21,21 +21,27 @@ def choisir_mot_aleatoire(nom_fichier):
 mot_aleatoire = choisir_mot_aleatoire('mot_pendu.txt')
 
 def jouer_pendu(mot_secret):
-    mot_masque = '_' * (len(mot_secret))
-    lettres_devinees = set()
+    mot_masque = '_' * len(mot_secret)
+    lettres_devinees = [] # on crée une liste vide pour stocker les lettres
     tentatives_restantes = 6
 
     print("Bienvenue dans le jeu du pendu!")
     print("Mot à deviner :", mot_masque)
 
     while tentatives_restantes > 0 and '_' in mot_masque:
-        lettre = input("Devinez une lettre : ").lower()
+        lettre = input("Devinez une lettre (en minuscule) : ").lower()
+        # on force toutes les lettres a etre des minuscules
+
+        if not lettre.isalpha() or not lettre.islower():
+            #on teste si c'est une lettreou une lettre minuscule sinon on eneleve pas de vie
+            print("Veuillez entrer une lettre en minuscule valide.")
+            continue
 
         if lettre in lettres_devinees:
             print("Vous avez déjà deviné cette lettre. Essayez une autre.")
             continue
 
-        lettres_devinees.add(lettre)
+        lettres_devinees.append(lettre)
 
         if lettre in mot_secret:
             print("Bonne devinette !")
@@ -53,13 +59,13 @@ def jouer_pendu(mot_secret):
 
 def mettre_a_jour_mot_masque(mot_secret, mot_masque, lettre):
     nouvelle_version = ''
-    for i in range(len(mot_secret)):
+    for i in range(len(mot_secret)-1):
         if mot_secret[i] == lettre:
             nouvelle_version += lettre
         else:
             nouvelle_version += mot_masque[i]
-
     return nouvelle_version
+
 
 
 while True:
